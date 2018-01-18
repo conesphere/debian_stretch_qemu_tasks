@@ -9,7 +9,7 @@
       apt: 
         name: "{{ item }}"
       with_items:
-        - btrfs-procs
+        - btrfs-progs
         - acpid
         - qemu-guest-agent
         - vim
