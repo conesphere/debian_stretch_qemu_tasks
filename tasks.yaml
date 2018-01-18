@@ -1,0 +1,55 @@
+- hosts: localhost
+  remote_user: root
+  tasks:
+    - name: Update all packages to the latest version
+      apt:
+        upgrade: dist
+        update_cache: yes
+    - name: install packages 
+      apt: 
+        name: "{{ item }}"
+      with_items:
+        - btrfs-procs
+        - acpid
+        - qemu-guest-agent
+        - vim
+        - screen
+        - tmux
+        - openssh-server
+        - net-tools
+        - git
+        - sshguard
+        - firmware-linux
+        - firmware-linux-nonfree
+        - apt-transport-https
+    - name: configure pwrbttn
+      template: 
+        src: templates/etc-acpi-events-powerbtn.j2 
+        dest: /etc/acpi/events/powerbtn
+      notify:
+        - restart acpid
+    - name: write the apache config file
+      template: 
+        src: templates/etc-acpi-powerbtn.sh.j2
+        dest: /etc/acpi/powerbtn.sh
+        mode: "0755"
+      notify:
+        - restart acpid
+    - template:
+       src: templates/sshd_config.j2
+       dest: /etc/ssh/sshd_config
+       mode: "0644"
+       owner: root
+       group: root
+      notify: sshd_restart
+    - template:
+       src: templates/ssh_config.j2
+       dest: /etc/ssh/ssh_config
+       mode: "0644"
+       owner: root
+       group: root
+  handlers:
+    - name: restart acpid
+      service: 
+        name: acpid 
+        state: restarted
