@@ -1,5 +1,8 @@
 - hosts: localhost
   remote_user: root
+  vars:
+    sshd_config: {}
+    ssh_config: {}
   tasks:
     - name: Update all packages to the latest version
       apt:
@@ -28,7 +31,7 @@
         dest: /etc/acpi/events/powerbtn
       notify:
         - restart acpid
-    - name: write the apache config file
+    - name: write acpi pwrbtn.sh handler
       template: 
         src: templates/etc-acpi-powerbtn.sh.j2
         dest: /etc/acpi/powerbtn.sh
