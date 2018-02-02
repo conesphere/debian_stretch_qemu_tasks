@@ -50,6 +50,22 @@
        mode: "0644"
        owner: root
        group: root
+    - name: make /tmp a tmpfs if it isnt one yet
+      linefile:
+        path: /mnt/etc/fstab
+        regexp: '^tmpfs'
+        line: 'tmpfs /tmp tmpfs rw,nosuid,mode=1777 0 0'
+    - file:
+       path: "/media/fd0"
+       state: directory
+       owner: root
+       group: root
+       mode: "0755"
+    - name: make a floppy entry available 
+      linefile:
+        path: /mnt/etc/fstab
+        regexp: '^/dev/fd/0'
+        line: '/dev/fd/0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
   handlers:
     - name: restart acpid
       service: 

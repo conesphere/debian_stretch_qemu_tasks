@@ -1,0 +1,13 @@
+---
+- name: ensure mountpoint exists
+  file:
+    path: '/{{ kvm_machine_filesystem.mountpoint }}'
+    state: directory
+  when: "'mountpoint' in kvm_machine_filesystem"
+- name: add filesystem to fstab rw if mountpoint
+  linefile:
+    path: /etc/fstab
+    regexp: '^{{ kvm_machine_filesystem.name }}'
+    line: '{{ kvm_machine_filesystem.name }} {{ kvm_machine_filesystem.mountpoint }} 9p trans=virtio,rw  0  0'
+  when: "'mountpoint' in kvm_machine_filesystem"
+
