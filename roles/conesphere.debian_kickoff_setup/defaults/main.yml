@@ -1,2 +1,4 @@
 ---
 # defaults file for conesphere.debian_kickoff_setup
+sshd_config: {}
+ssh_config: {}

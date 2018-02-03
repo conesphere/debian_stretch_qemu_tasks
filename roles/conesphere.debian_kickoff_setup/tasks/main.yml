@@ -1,2 +1,75 @@
 ---
 # tasks file for conesphere.debian_kickoff_setup
+- name: Update all packages to the latest version
+  apt:
+    upgrade: dist
+    update_cache: yes
+- name: install packages 
+  apt: 
+    name: "{{ item }}"
+  with_items:
+    - btrfs-progs
+    - acpid
+    - qemu-guest-agent
+    - vim
+    - screen
+    - tmux
+    - openssh-server
+    - net-tools
+    - git
+    - sshguard
+    - firmware-linux
+    - firmware-linux-nonfree
+    - apt-transport-https
+    - ansible
+- name: configure pwrbttn
+  template: 
+    src: templates/etc-acpi-events-powerbtn.j2 
+    dest: /etc/acpi/events/powerbtn
+  notify:
+    - restart acpid
+- name: write acpi pwrbtn.sh handler
+  template: 
+    src: templates/etc-acpi-powerbtn.sh.j2
+    dest: /etc/acpi/powerbtn.sh
+    mode: "0755"
+  notify:
+    - restart acpid
+- template:
+   src: templates/sshd_config.j2
+   dest: /etc/ssh/sshd_config
+   mode: "0644"
+   owner: root
+   group: root
+- template:
+   src: templates/ssh_config.j2
+   dest: /etc/ssh/ssh_config
+   mode: "0644"
+   owner: root
+   group: root
+- name: make /tmp a tmpfs if it isnt one yet
+  linefile:
+    path: /mnt/etc/fstab
+    regexp: '^tmpfs'
+    line: 'tmpfs /tmp tmpfs rw,nosuid,mode=1777 0 0'
+- file:
+   path: "/media/fd0"
+   state: directory
+   owner: root
+   group: root
+   mode: "0755"
+- name: make a floppy entry available 
+  linefile:
+    path: /mnt/etc/fstab
+    regexp: '^/dev/fd/0'
+    line: '/dev/fd/0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
+- file:
+   path: "/etc/ansible/roles"
+   state: directory
+   owner: root
+   group: root
+   mode: "0755"
+- name: copy debian_kickoff role
+  copy:
+    src: files/conesphere.debian_kickoff
+    dest: /etc/ansible/roles/conesphere.debian_kickoff

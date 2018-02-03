@@ -1,2 +1,6 @@
 ---
 # handlers file for conesphere.debian_kickoff_setup
+- name: restart acpid
+  service: 
+    name: acpid 
+    state: restarted
