@@ -72,7 +72,7 @@
 - name: copy debian_kickoff role
   copy:
     src: files/conesphere.debian_kickoff
-    dest: /etc/ansible/roles/conesphere.debian_kickoff
+    dest: /etc/ansible/roles
 - name: copy debian_kickoff playbook
   copy:
     src: files/kickoff.yml
