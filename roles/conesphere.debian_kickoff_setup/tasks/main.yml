@@ -73,13 +73,13 @@
     src: files/kickoff.service
     dest: /etc/systemd/system/kickoff.service
 - file:
-   path: "/etc/kickoff.sh"
+   path: "/etc/kickoff/kickoff.sh"
    state: file
    owner: root
    group: root
    mode: "0755"
 - file:
-   path: "/etc/jinja2proc.py"
+   path: "/etc/kickoff/jinja2proc.py"
    state: file
    owner: root
    group: root
