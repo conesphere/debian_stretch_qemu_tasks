@@ -31,8 +31,7 @@ else:
 	render_stdin={}
 
 if args.input != None:
-	print(args.input)
-	render_stdin=yaml.load(args.input)
+	render_input=yaml.load(open(args.input, "r"))
 else:
 	render_input={}
 

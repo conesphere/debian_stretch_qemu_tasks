@@ -12,11 +12,11 @@ fi
 mount /media/fd0 || exit $?
 cp /media/fd0/kickoff.yml /etc/kickoff/conf.yml || exit $?
 umount /media/fd0 || exit $?
-KICK="/etc/kickoff/jinja2proc.py -i /etc/kickoff/conf.yml"
-${KICK} -o /etc/hostname /etc/kickoff/etc-hostname.j2 || exit $?
+KICK="/etc/kickoff/jinja2proc.py -p /etc/kickoff -i /etc/kickoff/conf.yml"
+${KICK} -o /etc/hostname etc-hostname.j2 || exit $?
 install -m 0700 -d /root/.ssh || exit $?
-${KICK} -o /root/.ssh/authorized_keys /etc/kickoff/root-.ssh-authorized_keys.j2 || exit $?
-${KICK} -o /etc/network/interfaces /etc/kickoff/etc-network-interfaces.j2 || exit $?
+${KICK} -o /root/.ssh/authorized_keys root-.ssh-authorized_keys.j2 || exit $?
+${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
 btrfs filesystem resize max / || exit $?
 # begin block ssh key generation
 if [[ ! -f "/etc/ssh/sshd_config" ]]
