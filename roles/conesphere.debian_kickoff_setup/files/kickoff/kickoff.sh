@@ -24,7 +24,7 @@ then
 	echo "Can't open sshd_config" 
 	exit 1
 fi
-grep -e "^HostKey " "/sshd_config" | (
+grep -e "^HostKey " "/etc/ssh/sshd_config" | (
 	while read hostkey keyfile foo 
 	do
 		keyname="${keyfile##*/}"
