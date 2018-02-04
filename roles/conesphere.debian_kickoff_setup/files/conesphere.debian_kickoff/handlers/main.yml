@@ -1,6 +1,0 @@
----
-# handlers file for conesphere.debian_kickoff
-- name: restart sshd
-  service: 
-    name: sshd
-    state: restarted

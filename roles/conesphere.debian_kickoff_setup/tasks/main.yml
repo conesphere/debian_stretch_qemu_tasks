@@ -21,7 +21,8 @@
     - firmware-linux
     - firmware-linux-nonfree
     - apt-transport-https
-    - ansible
+    - python3-jinja2
+    - python3-yaml
 - name: configure pwrbttn
   template: 
     src: templates/etc-acpi-events-powerbtn.j2 
@@ -63,20 +64,10 @@
     name: /etc/fstab
     regexp: '^/dev/fd0'
     line: '/dev/fd0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
-- file:
-   path: "/etc/ansible/roles"
-   state: directory
-   owner: root
-   group: root
-   mode: "0755"
-- name: copy debian_kickoff role
+- name: copy kickoff scripts 
   copy:
-    src: files/conesphere.debian_kickoff
-    dest: /etc/ansible/roles
-- name: copy debian_kickoff playbook
-  copy:
-    src: files/kickoff.yml
-    dest: /etc/ansible/kickoff.yml
+    src: files/kickoff
+    dest: /etc
 - name: copy debian_kickoff service
   copy:
     src: files/kickoff.service

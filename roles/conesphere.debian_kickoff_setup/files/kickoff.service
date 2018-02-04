@@ -4,12 +4,12 @@ After=systemd-remount-fs.service
 Before=systemd-sysusers.service sysinit.target shutdown.target
 Wants=network-pre.target
 ConditionPathExists=/dev/fd0
-ConditionFirstBoot=yes
+ConditionPathExists=!/etc/machine-id
 
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/bin/bash -c '/usr/bin/ansible-playbook /etc/ansible/kickoff.yml 2>&1 > /var/log/kickoff.log'
+ExecStart=/etc/kickoff/kickoff.sh'
 StandardOutput=tty
 StandardInput=tty
 StandardError=tty
