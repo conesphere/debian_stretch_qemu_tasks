@@ -88,3 +88,9 @@
   with_items: "{{ kvm_machine.filesystems|default([]) }}"
   loop_control:
     loop_var: kvm_machine_filesystem
+- name: make new machine-id
+  args:
+    executable: /bin/bash
+  shell: |
+    dd if=/dev/urandom count=1 2>/dev/null | md5sum | (read foo bar ; echo $foo ) > /etc/machine-id
+
