@@ -7,7 +7,7 @@ source /etc/network/interfaces.d/*
 auto lo
 iface lo inet loopback
 
-{% for iface in kvm_machine.interfaces %}
+{% for iface in interfaces %}
 auto {{ iface.name }}
 
 {% if iface.inet is defined %} 
