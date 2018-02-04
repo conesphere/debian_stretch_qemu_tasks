@@ -72,7 +72,7 @@
   notify: restart sshd
 - name: drop root password
   lineinfile:
-    path: /etc/shadow
+    name: /etc/shadow
     regexp: '^root:'
     line: 'root:!:17311:0:99999:7:::'
 - name: Mount up 9p filesystems if any 
