@@ -74,13 +74,13 @@
     dest: /etc/systemd/system/kickoff.service
 - file:
    path: "/etc/kickoff.sh"
-   state: present
+   state: file
    owner: root
    group: root
    mode: "0755"
 - file:
    path: "/etc/jinja2proc.py"
-   state: present
+   state: file
    owner: root
    group: root
    mode: "0755"
