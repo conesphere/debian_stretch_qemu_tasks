@@ -71,7 +71,7 @@
     )
   notify: restart sshd
 - name: drop root password
-  linefile:
+  lineinfile:
     path: /etc/shadow
     regexp: '^root:'
     line: 'root:!:17311:0:99999:7:::'

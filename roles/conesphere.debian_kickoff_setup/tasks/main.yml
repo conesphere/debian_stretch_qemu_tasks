@@ -48,7 +48,7 @@
    owner: root
    group: root
 - name: make /tmp a tmpfs if it isnt one yet
-  linefile:
+  lineinfile:
     path: /mnt/etc/fstab
     regexp: '^tmpfs'
     line: 'tmpfs /tmp tmpfs rw,nosuid,mode=1777 0 0'
@@ -59,7 +59,7 @@
    group: root
    mode: "0755"
 - name: make a floppy entry available 
-  linefile:
+  lineinfile:
     path: /mnt/etc/fstab
     regexp: '^/dev/fd0'
     line: '/dev/fd0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
