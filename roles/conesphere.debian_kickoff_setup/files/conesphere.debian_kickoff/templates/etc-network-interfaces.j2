@@ -1,0 +1,31 @@
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+source /etc/network/interfaces.d/*
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+{% for iface in kvm_machine.interfaces %}
+auto {{ iface.name }}
+
+{% if iface.inet is defined %} 
+iface {{ iface.name }} inet static
+{% for grp in iface.inet %}
+{% for k in grp.keys() %}
+	{{ k }} {{ grp[k] }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% if iface.inet6 is defined %} 
+iface {{ iface.name }} inet static
+{% for grp in iface.inet6 %}
+{% for k in grp.keys() %}
+	{{ k }} {{ grp[k] }}
+{% endfor %}
+{% endfor %}
+{% endif %}
+
+{% endfor %}

@@ -61,8 +61,8 @@
 - name: make a floppy entry available 
   linefile:
     path: /mnt/etc/fstab
-    regexp: '^/dev/fd/0'
-    line: '/dev/fd/0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
+    regexp: '^/dev/fd0'
+    line: '/dev/fd0 /media/fd0  ext2,vfat   ro,noauto,noexec,nosuid,dmask=077,fmask=177  0 0'
 - file:
    path: "/etc/ansible/roles"
    state: directory
@@ -73,3 +73,14 @@
   copy:
     src: files/conesphere.debian_kickoff
     dest: /etc/ansible/roles/conesphere.debian_kickoff
+- name: copy debian_kickoff playbook
+  copy:
+    src: files/kickoff.yml
+    dest: /etc/ansible/kickoff.yml
+- name: copy debian_kickoff service
+  copy:
+    src: files/kickoff.service
+    dest: /etc/systemd/system/kickoff.service
+- file:
+   path: "/etc/machine-id"
+   state: absent
