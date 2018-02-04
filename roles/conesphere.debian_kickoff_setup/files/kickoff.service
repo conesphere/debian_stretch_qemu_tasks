@@ -1,0 +1,12 @@
+[Unit]
+Before=network-pre.target multi-user.target
+Wants=network-pre.target
+ConditionPathExists=/dev/fd0
+ConditionFirstBoot=true
+
+[Service]
+ExecStart=/usr/bin/ansible-playbook /etc/ansible/kickoff.yml
+
+[Install]
+WantedBy=default.target
+
