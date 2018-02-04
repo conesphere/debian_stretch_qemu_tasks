@@ -81,6 +81,11 @@
   copy:
     src: files/kickoff.service
     dest: /etc/systemd/system/kickoff.service
+- name: enable kickoff.service
+  args:
+    executable: /bin/bash
+  shell: |
+    systemctl enable kickoff
 - file:
    path: "/etc/machine-id"
    state: absent

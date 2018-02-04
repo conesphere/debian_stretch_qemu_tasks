@@ -4,7 +4,9 @@
   args:
     executable: /bin/bash
   shell: |
+    echo tmp only
     mount /media/fd0
+  changed_when: False
 - name: load kvm_machine config from floppy
   include_vars:
     file: /media/fd0/kickoff.yml
@@ -14,6 +16,7 @@
     executable: /bin/bash
   shell: |
     umount /media/fd0
+  changed_when: False
 - template:
    dest: "/etc/hostname"
    src: templates/etc-hostname.j2
