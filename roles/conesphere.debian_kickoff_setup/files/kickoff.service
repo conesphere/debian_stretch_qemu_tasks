@@ -9,7 +9,7 @@ ConditionPathExists=!/etc/machine-id
 [Service]
 Type=oneshot
 RemainAfterExit=yes
-ExecStart=/etc/kickoff/kickoff.sh'
+ExecStart=/etc/kickoff/kickoff.sh
 StandardOutput=tty
 StandardInput=tty
 StandardError=tty
