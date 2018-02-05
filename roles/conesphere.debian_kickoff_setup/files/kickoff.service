@@ -1,7 +1,7 @@
 [Unit]
 Description=First Boot Kickoff
 After=systemd-remount-fs.service
-Before=network-pre.target systemd-sysusers.service sysinit.target shutdown.target
+Before=network-pre.target network.target network-online.target networking.service
 ConditionPathExists=/dev/fd0
 ConditionPathExists=!/etc/machine-id
 
