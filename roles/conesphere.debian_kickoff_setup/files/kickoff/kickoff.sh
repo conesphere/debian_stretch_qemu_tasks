@@ -14,7 +14,7 @@ cp /media/fd0/kickoff.yml /etc/kickoff/conf.yml || exit $?
 umount /media/fd0 || exit $?
 KICK="/etc/kickoff/jinja2proc.py -p /etc/kickoff -i /etc/kickoff/conf.yml"
 ${KICK} -o /etc/hostname etc-hostname.j2 || exit $?
-hostname -F /etc/hostname
+hostname -F /etc/hostname || exit $?
 install -m 0700 -d /root/.ssh || exit $?
 ${KICK} -o /root/.ssh/authorized_keys root-.ssh-authorized_keys.j2 || exit $?
 ${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
