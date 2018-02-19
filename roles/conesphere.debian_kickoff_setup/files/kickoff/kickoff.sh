@@ -20,32 +20,33 @@ ${KICK} -o /root/.ssh/authorized_keys root-.ssh-authorized_keys.j2 || exit $?
 ${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
 btrfs filesystem resize max / || exit $?
 # begin block ssh key generation
-if [[ ! -f "/etc/ssh/sshd_config" ]]
+if [[ -f "/etc/ssh/sshd_config" ]]
 then
-	echo "Can't open sshd_config" 
-	exit 1
+	grep -e "^HostKey " "/etc/ssh/sshd_config" | (
+		while read hostkey keyfile foo 
+		do
+			keyname="${keyfile##*/}"
+			IFS="_" read t1 t2 keytype t3 <<< "${keyname}"
+			if [[ -f "/etc/ssh/${keyname}" ]]
+			then
+				rm "/etc/ssh/${keyname}"
+			fi
+			if [[ -f "/etc/ssh/${keyname}.pub" ]]
+			then
+				rm "/etc/ssh/${keyname}.pub"
+			fi
+			ssh-keygen -N '' -t "${keytype}" -f "/etc/ssh/${keyname}"
+		done
+	)
+	# end block ssh key generation
+	
+	# drop root password 
+	cp -a /etc/shadow /etc/shadow- || exit $?
+	sed -e 's/^root:.*$/root:!:17311:0:99999:7:::/g' < /etc/shadow- > /etc/shadow  || exit $?
+else
+	echo "WARNING: Can't open sshd_config but I will continue anyway."
+	echo "but we are leaving the root password behind so you habe means to login"
 fi
-grep -e "^HostKey " "/etc/ssh/sshd_config" | (
-	while read hostkey keyfile foo 
-	do
-		keyname="${keyfile##*/}"
-		IFS="_" read t1 t2 keytype t3 <<< "${keyname}"
-		if [[ -f "/etc/ssh/${keyname}" ]]
-		then
-			rm "/etc/ssh/${keyname}"
-		fi
-		if [[ -f "/etc/ssh/${keyname}.pub" ]]
-		then
-			rm "/etc/ssh/${keyname}.pub"
-		fi
-		ssh-keygen -N '' -t "${keytype}" -f "/etc/ssh/${keyname}"
-	done
-)
-# end block ssh key generation
-
-# drop root password 
-cp -a /etc/shadow /etc/shadow- || exit $?
-sed -e 's/^root:.*$/root:!:17311:0:99999:7:::/g' < /etc/shadow- > /etc/shadow  || exit $?
 
 # TODO: Inplement stuff to mount additional filesystems or initialize zfs or so 
 # - name: Mount up 9p filesystems if any 
