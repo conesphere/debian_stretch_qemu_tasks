@@ -10,6 +10,10 @@ iface lo inet loopback
 {% for iface in interfaces %}
 auto {{ iface.name }}
 
+{% if iface.inet_dhcp is defined and iface.inet_dhcp == True %} 
+iface {{ iface.name }} inet dhcp
+{% endif %}
+
 {% if iface.inet is defined %} 
 iface {{ iface.name }} inet static
 {% for grp in iface.inet %}
