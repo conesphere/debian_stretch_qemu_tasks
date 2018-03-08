@@ -24,7 +24,7 @@ iface {{ iface.name }} inet static
 {% endif %}
 
 {% if iface.inet6 is defined %} 
-iface {{ iface.name }} inet static
+iface {{ iface.name }} inet6 static
 {% for grp in iface.inet6 %}
 {% for k in grp.keys() %}
 	{{ k }} {{ grp[k] }}
