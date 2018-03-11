@@ -15,6 +15,7 @@
     - screen
     - tmux
     - openssh-server
+    - cloud-initramfs-growroot
     - net-tools
     - git
     - sshguard

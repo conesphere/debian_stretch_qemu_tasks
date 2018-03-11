@@ -18,7 +18,8 @@ hostname -F /etc/hostname || exit $?
 install -m 0700 -d /root/.ssh || exit $?
 ${KICK} -o /root/.ssh/authorized_keys root-.ssh-authorized_keys.j2 || exit $?
 ${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
-btrfs filesystem resize max / || exit $?
+# resizing should now be done automatically by cloud-initramfs-growroot 
+# btrfs filesystem resize max / || exit $?
 # begin block ssh key generation
 if [[ -f "/etc/ssh/sshd_config" ]]
 then
