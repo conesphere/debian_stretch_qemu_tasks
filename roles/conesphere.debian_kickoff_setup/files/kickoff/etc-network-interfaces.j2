@@ -7,6 +7,11 @@ source /etc/network/interfaces.d/*
 auto lo
 iface lo inet loopback
 
+{% if admin_net is not defined or admin_net == True %}
+auto eth9
+iface eth9 inet dhcp
+{% endif %}
+
 {% for iface in interfaces %}
 auto {{ iface.name }}
 
