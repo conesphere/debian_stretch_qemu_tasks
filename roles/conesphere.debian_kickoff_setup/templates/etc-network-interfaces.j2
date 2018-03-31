@@ -13,3 +13,12 @@ iface ens3 inet dhcp
 allow-hotplug ens9
 iface ens9 inet dhcp
 
+# it is called predictable network interface names because 
+# they might unpredictably change on a software update 
+allow-hotplug enp0s3
+iface ens3 inet dhcp
+
+allow-hotplug enp0s9
+iface ens9 inet dhcp
+
+
