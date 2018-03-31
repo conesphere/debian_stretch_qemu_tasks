@@ -18,7 +18,9 @@ hostname -F /etc/hostname || exit $?
 install -m 0700 -d /root/.ssh || exit $?
 ${KICK} -o /root/.ssh/authorized_keys root-.ssh-authorized_keys.j2 || exit $?
 ${KICK} -o /etc/ssh/trusted_user_ca_keys etc-ssh-trusted_user_ca_keys.j2 || exit $?
-${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
+# with the introduction of an admin net on eth9 it should not be needed to have 
+# rewrite network interfaces 
+# ${KICK} -o /etc/network/interfaces etc-network-interfaces.j2 || exit $?
 # resizing should now be done automatically by cloud-initramfs-growroot 
 # btrfs filesystem resize max / || exit $?
 # begin block ssh key generation
